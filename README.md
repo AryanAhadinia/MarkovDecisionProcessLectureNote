@@ -7,9 +7,7 @@
 ## Introduction
 
 
-In nature, learning by trial and error is the most common way of learning. learning by trial and error is called Reinforcement Learning (RL) in computer literature. Markov Decision Process (MDP) is a foundational element of formulating reinforcement learning mathematically. In a typical Reinforcement Learning  problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. All these could be modeled in a single MDP. The environment is modeled with states, the 
-
-
+In nature, learning by trial and error is the most common way of learning. learning by trial and error is called Reinforcement Learning (RL) in computer literature. Markov Decision Process (MDP) is a foundational element of formulating reinforcement learning mathematically. In a typical Reinforcement Learning  problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. All these could be modeled in a single MDP. The environment is modeled with states and agent's possible decisions are modeled by actions. Since In real problems unexpected events may happen, agent's actions may not lead to expected results. This is why MDP models are used. 
 Transition model is used to show thwie s So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
 
 ## Markov Decision Process
@@ -126,8 +124,17 @@ For each state $s$, $V_{k+1}(s)$ will calculated with iteration over all states 
 
 ## Conclusion
 
+As explained, to model an RL problem, MDP is needed. 
+
+
 ## References
 
+- https://towardsdatascience.com/real-world-applications-of-markov-decision-process-mdp-a39685546026
+- https://web.mit.edu/6.246/www/notes/L3-notes.pdf
+- https://hub.packtpub.com/reinforcement-learning-mdp-markov-decision-process-tutorial/
+- http://artint.info/html/ArtInt_160.html#stationary-Markov-Chain
+- https://towardsdatascience.com/introduction-to-reinforcement-learning-markov-decision-process-44c533ebf8da
+- https://www.geeksforgeeks.org/markov-decision-process/
 
 
 
