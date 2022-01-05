@@ -6,7 +6,45 @@
 
 ## Introduction
 
-## Formalization
+In a typical Reinforcement Learning (RL) problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
+
+## Markov Decision Process
+
+Markov Decision Process is based on Markov chain. A Markov chain is a mathematical system that experiences transitions from one state to another according to certain probabilistic rules. The chain holds the following independence assumption.
+
+$$ P(S_{t+1}|S_t, ..., S_0)=P(S_{t+1}|S_t) $$
+
+$S_t$ represents the state at time $t$. Intuitively, $S_t$ conveys all of the information about the history that can affect the future states so the future is conditionally independent of the past, given the present.
+
+### States
+
+States are the feature representation of the data obtained from the environment. Thus, any input from the agent’s sensors can play an important role in state formation. The $ S $ state set is a set of different states, represented as $ s $ which shows the status of the envrironment.   Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent enters a stopping state, sum of rewards, return, can be computed.
+
+### Actions
+
+Actions are set of things an agent is allowed to do in the given environment. The set of actions is usually showed with $ A $.
+
+### Transition Model
+
+At each state, the agent decides which action to perform. The resulting state depends on both the previous state and the action performed by the agent. 
+
+The transition model T(s, a, s’) is a function of three variables, which are the current state (s), action (a), and the new state (s’). It gives probability P(s’|s, a), that is, the probability of landing up in the new  state s’ given that the agent takes an action, a, in given state, s.
+
+The transition model plays the crucial role in a stochastic world, unlike the case of a deterministic world where the probability for any landing state other than the determined one will have zero probability.
+Each action has a reward which sum of these rewards is called return. 
+ 
+These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent entered stopping state, return could be computed.
+A more formal and summarized form of above paragraph is as follows:
+- A set of possible world states S.
+-	A set of possible actions A.
+-	A transition function T(s, a, s’) 
+    -  Probability that taking action ‘a’ in state ‘s’ leads to ‘s’’, i.e., P(s’| s, a) 
+- Also called the model or the dynamic.
+- A reward function R(s, a, s’) 
+    - Sometimes reward only depends on the resulting state. So R(s, a, s’) can be replaced by R(s’)
+- A start state 
+- Maybe a terminal state
+
 
 ## Policy
 
@@ -38,12 +76,7 @@ It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more 
 
 <br><br><br><br><br><br><br><br>
 
-In a typical Reinforcement Learning (RL) problem, there is a learner and a decision maker called agent and the surrounding with which it interacts is called environment. The environment, in return, provides rewards and a new state based on the actions of the agent. So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
-Markov Decision Process is based on Markov chain. A Markov chain is a special sort of belief network used to represent the sequence of states in a dynamic system. The belief network holds the following independence assumption.
 
-$$ P(S_{t+1}|S_t, ..., S_0)=P(S_{t+1}|S_t) $$
-
-$S_t$ represents the state at time $t$. Intuitively, $S_t$ conveys all of the information about the history that can affect the future states. At $S_t$, It can be seen that the future is conditionally independent of the past given the present. At each state, the agent decides which action to perform. The resulting state depends on both the previous state and the action performed by the agent. Each action has a reward which sum of these rewards is called return.
 
 
 
