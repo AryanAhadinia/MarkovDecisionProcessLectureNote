@@ -26,15 +26,22 @@ Actions are set of things an agent is allowed to do in the given environment. Th
 
 ### Transition Model
 
-At each state, the agent decides which action to perform. The resulting state depends on both the previous state and the action performed by the agent. 
+At each state, the agent decides which action to perform. The resulting state (s') depends on both the current state (s) and the action performed by the agent (a). The transition model T(s, a, s’) gives probability P(s’|s, a), that is, the probability of landing up in the new  state s’ given that the agent takes an action, a, in given state, s.
 
-The transition model T(s, a, s’) is a function of three variables, which are the current state (s), action (a), and the new state (s’). It gives probability P(s’|s, a), that is, the probability of landing up in the new  state s’ given that the agent takes an action, a, in given state, s.
+Environments can be devided to two types according to their transition models.
+- Determined environment: In a determined environment, if a certain action (a) is taken, the resulting state is the expected state (s') with probability 1.
+- Stochastic environment: In a stochastic environment, if the same action (a) is taken, with a certain probability e.g. 0.8 the resulting state  will be the expected state and there is 0.2 probability that the resulting state is not the expected state. Here, for the s state and the a action transition model, T(s’, a, s) = P(s’| s, a) = 0.8.
 
-The transition model plays the crucial role in a stochastic world, unlike the case of a deterministic world where the probability for any landing state other than the determined one will have zero probability.
-Each action has a reward which sum of these rewards is called return. 
- 
-These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent entered stopping state, return could be computed.
-A more formal and summarized form of above paragraph is as follows:
+### Rewards
+
+The reward of the state quantifies the usefulness of taking a specific action and entering a state.These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. The general form of the reward function is shown as $ R(s, a, s') $. But in some MDPs the reward function is independent from the resulting state or both resulting state and action. In those models reward function is shown with $R(s, a) $ and $ R(s) $ respectively. 
+
+For a particular environment, the domain knowledge plays an important role in the assignment of rewards for different states as minor changes in the reward do matter for finding the optimal solution to an MDP problem.
+Sum of the rewards is called utility or return. 
+
+### Formalization
+
+
 - A set of possible world states S.
 -	A set of possible actions A.
 -	A transition function T(s, a, s’) 
