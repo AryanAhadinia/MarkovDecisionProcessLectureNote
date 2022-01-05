@@ -6,7 +6,11 @@
 
 ## Introduction
 
-In a typical Reinforcement Learning (RL) problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
+
+In nature, learning by trial and error is the most common way of learning. learning by trial and error is called Reinforcement Learning (RL) in computer literature. Markov Decision Process (MDP) is a foundational element of formulating reinforcement learning mathematically. In a typical Reinforcement Learning  problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. All these could be modeled in a single MDP. The environment is modeled with states, the 
+
+
+Transition model is used to show thwie s So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
 
 ## Markov Decision Process
 
@@ -41,21 +45,33 @@ Sum of the rewards is called utility or return.
 
 ### Formalization
 
+By combining the concepts which were explained above the complete formulation for Markov Decision Process is acheived as below.
 
-- A set of possible world states S.
--	A set of possible actions A.
--	A transition function T(s, a, s’) 
-    -  Probability that taking action ‘a’ in state ‘s’ leads to ‘s’’, i.e., P(s’| s, a) 
+- A set of possible states $S$.
+-	A set of possible actions $ A$.
+-	A transition function $T(s, a, s’)$ 
+    -  Probability that taking action $a$ in state $s$ leads to $s'$, i.e., $P(s’| s, a) $
 - Also called the model or the dynamic.
-- A reward function R(s, a, s’) 
-    - Sometimes reward only depends on the resulting state. So R(s, a, s’) can be replaced by R(s’)
+- A reward function $R(s, a, s’) $
+    - Sometimes reward only depends on the resulting state. So $R(s, a, s’)$ can be replaced by $R(s’)$ or $R(s', a)$
 - A start state 
 - Maybe a terminal state
 
 
 ## Policy
 
+The policy is a function that takes the state as an input and outputs the action to be taken. Policy $\pi : S \rightarrow A$ is a set of commands that the agent follows.
+
+The policy which maximizes the expected utility among all the possible policies is called optimal policy and shown with $\pi^*$. 
+
+Finding $\pi^*$ is usually refered to as solving the MDP. There are different algorithms which attempt to find $\pi^*$ such as value iteration and policy evaluation.
+
+
 ## MDP Search Trees
+
+In expectimax tree the path which leads to the most reward is desired. MDP problems could be demostrated as a search tree. But there are two main differences.
+- In MDP Rewards are assigned to edges rather than nodes.
+- In MDP utiliy is the sum of rewards gained in the path to the terminal state. But in expectimax utility is the the value assigned to the terminal state. 
 
 ## Utilities of Sequences
 
