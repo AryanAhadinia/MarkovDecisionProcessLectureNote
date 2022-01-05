@@ -83,6 +83,24 @@ by solving bellman equation for all states, optimal policy will be obtained.
 
 ## Time Limited Values
 
+Solving bellman equation via tree has two major problems:
+
+1. There are repeating sub problems, so there are a lots of overheads on the system.
+2. The depth of the tree could be infinite.
+
+An idea to approach solving this problem is trying to solve the problem in $k$ steps which converge to final answer instead of one-shot solving.
+
+Instead of $V^*(s)$, Consider $V_k(s)$ which is expected utility starting from state $s$ and act according to $\pi^*$ with consideration that the process will be terminated after $k$ steps. The idea is with growth of $k$, $V_k$ will converge to $V^*$ so we can obtain an approximate answer of the equations system.
+
+Equations below are limited form of what we discuss about $V^*$ and $Q^*$ before.
+$$ V_{k+1}(s) = max_a Q_k(s, a) $$
+$$ Q_k(s, a) = \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big]$$
+
+So $V_{k+1}$ can be calculated by
+$$ V_{k+1}(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big] $$
+
+For each state $s$, $V_{k+1}(s)$ will calculated with iteration over all states and all actions which take $O(SA)$ so each iteration will take $O(S^2A)$ totally.
+
 ## Conclusion
 
 ## References
