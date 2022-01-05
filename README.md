@@ -24,6 +24,25 @@ It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more 
 
 ## Bellman Equation
 
+Due to previous discussions, now objective is to find policy that maximize expected discounted utility.
+$$ max_\pi E \Bigg[ \sum_{i=0}^\infty \gamma^ir_i \Bigg] $$
+
+Consider $V^*(s)$ as expected utility starting from state $s$ and act according to $\pi^*$, the optimal policy.
+
+$Q^*(s, a)$ is expected utility starting from state $s$ then perform action $a$ and after that act according to $\pi^*$.
+
+By considering all forward steps and choosing the step which maximize utility, $V^*$ can be formulated as
+$$ V^*(s) = max_a Q^*(s, a) $$
+and then by calculating expectation on earned utility by marginalizing on all possible next states which can be succeeded after action $a$ in state $s$, $Q^*$ will be written as
+$$ Q^*(s, a) = \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V^*(s') \big]$$
+
+Since $V^*$ and $Q^*$ are jointly recursive, It is possible to replace $Q^*$ in $V^*$.
+$$ V^*(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V^*(s') \big] $$
+
+Equation above is called as *bellman equation*.
+
+by solving bellman equation for all states, optimal policy will be obtained.
+
 ## Time Limited Values
 
 ## Conclusion
