@@ -7,8 +7,9 @@
 ## Introduction
 
 
-In nature, learning by trial and error is the most common way of learning. learning by trial and error is called Reinforcement Learning (RL) in computer literature. Markov Decision Process (MDP) is a foundational element of formulating reinforcement learning mathematically. In a typical Reinforcement Learning  problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions of the agent. All these could be modeled in a single MDP. The environment is modeled with states and agent's possible decisions are modeled by actions. Since In real problems unexpected events may happen, agent's actions may not lead to expected results. This is why MDP models are used. 
-Transition model is used to show thwie s So, in reinforcement learning, we do not teach an agent how it should do something but presents it with rewards whether positive or negative based on its actions. So the root question is how we formulate any problem in RL mathematically. This is where the Markov Decision Process (MDP) comes in.
+In nature, learning by trial and error is the most common way of learning. learning by trial and error is called Reinforcement Learning (RL) in computer literature. Markov Decision Process (MDP) is a foundational element of formulating reinforcement learning mathematically. In a typical Reinforcement Learning  problem, there is a learner and a decision maker called agent. The surrounding which agent interacts with is called environment. The environment provides rewards and a new state based on the actions the agent perform. All these could be modeled in a single MDP. The environment is modeled with states and agent's possible decisions are modeled by actions. Since In real problems unexpected events may happen, agent's actions may not lead to expected results. This is why MDPs with stochastic transition models are used. In reinforcement learning, agent is not told how it should act but it is presented with rewards whether positive or negative based on its actions. These rewards are modeled by reward function in an MDP. Solving an MDP means to find the best way that the agent can act. There are different ways to solve an MDP which all of them are based on Bellman equation, So in order to find the best guidline for the agent Bellman equation should be solved.
+
+In this note, first MDP formalization is introduced. Then MDP search trees as a tool for presenting MDPs are explained. At the end Bellman equation is discussed as the way of solving an MDP.
 
 ## Markov Decision Process
 
@@ -22,9 +23,21 @@ $S_t$ represents the state at time $t$ . Intuitively, $S_t$ retains all of the i
 
 A representation of the environment's features at a specific time is called state and shown by $s$. Thus, any input from the agent’s sensors can play an important role in state formation. The $S$ state set is a set of different states, represented as $s$ which shows the status of the envrironment.   Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent enters a stopping state, sum of rewards, return, can be computed.
 
+As an example, consider a robot car that wants to reach its destination as quickly as possible. The engine condition of this car can be cool, warm, or overheated depending on its speed.So in the above example, set of states would be {cool, warm, overheated} .Notice that overheated is a terminal state.
+
+<center>
+<image src="./cool.jpg">
+<image src="./warm.jpg">
+<image src="./overheated.jpg">
+</center>
+
 ### Actions
 
-Actions are set of operations an agent is allowed to do in the given environment. The set of actions is usually shown with $A$.
+Actions are set of operations an agent is allowed to do in the given environment. The set of actions is usually shown with $A$. In the robot car example, the machine can increase or decrease its speed. So the actions' set would be {slow, fast}
+
+<center>
+<image src="./action.jpg">
+</center>
 
 ### Transition Model
 
@@ -33,6 +46,15 @@ At each state, the agent decides which action to perform. The resulting state ($
 Environments can be devided to two types according to their transition models.
 - Determined environment: In a determined environment, if a certain action ($a$) is taken, the resulting state is the expected state ($s'$) with probability 1.
 - Stochastic environment: In a stochastic environment, if the same action (a) is taken, with a certain probability ,e.g. $0.8$, the resulting state  will be the expected state and there is $0.2$ probability that the resulting state is not the expected state. Here, for the state $s$, the action $a$ and next state $s'$ the transition model is $T(s’, a, s) = P(s’| s, a) = 0.8$.
+
+In the machine robot example, we assume that the environment is stochastic. The probability of transitions is determined based on the current state, action, and next state.
+One of the possible transitions is shown in the figure below.
+
+
+
+<center>
+<image src="./transition.jpg">
+</center>
 
 ### Rewards
 
@@ -43,7 +65,11 @@ Sum of the rewards is called *utility* or *return*.
 
 Usually the performance of the agent, which is also called *utility*, is measured by the sum of rewards on the visited path. But other utility fucntions are also possible. General form of utility is shown by $U_h[s_0,s_1, s_2, ..., s_N]$.  
 
+In the robot car example, the robot must reach its destination as quickly as possible, so the high-speed reward must be considered more than the low-speed, e.g. +2 and +1 may be considered. But reward should be assigned in a way to prevent the robot from going to overheated state. So -10 is assigned to enetering the overheated state.
 
+<center>
+<image src="./reward.jpg">
+</center>
 
 ### Formalization
 
@@ -73,7 +99,11 @@ Finding $\pi^*$ is usually refered to as solving the MDP. There are different al
 
 In expectimax tree the path which leads to the most reward is desired. MDP problems could be demostrated as a search tree. But there are two main differences.
 - In MDP Rewards are assigned to edges rather than nodes.
-- In MDP utiliy is the sum of rewards gained in the path to the terminal state. But in expectimax utility is the the value assigned to the terminal state. 
+- In MDP utiliy is the sum of rewards gained in the path to the terminal state. But in expectimax utility is the the value assigned to the terminal state.
+
+<center>
+<image src="./tree.png">
+</center> 
 
 ## Utilities of Sequences
 
@@ -81,9 +111,21 @@ It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more 
 
 ### Discounting
 
+Consider gaining reward $r_i$ in time step $t_i$. In discounting, $\sum \gamma^t_i r_i$ is considered instead of $\sum r_i$ as utility function such that $0\lt \gamma \lt 1$. $\gamma=1$ is just equivalent to simple summation. Apart from what we have said so far, this method has other advantages, which we will mention briefly below.
+
 #### Infinite Utilities
 
 #### Stationary Preference
+
+
+Decision making problems may be of two types. Some may be *finite horizon* and some *infinite horizon*. Finite horizon means that there is a fixed time N after which nothing matters. In other words what happens after the fixed time is not analysed. To be mathematically shown, $U_h([s_0, s_1,...,s_{N+k}]) = U_h([s_0, s_1,..., s_N ])$
+for all $k > 0$ . In finite horizon problems, the optimal action in a given state could change over time. For example when there is little time left, the agent should take risk to gain reward before the deadline is reached. Because of this change in optimal action in a given state over time, the optimal policy for a finite horizon is nonstationary. However, with no fixed time limit, there is no reason to behave differently in the same state at different times. Hence, the optimal policy depends only on the current state, and the optimal policy is stationary. Note that infinite horizon does not necessarily mean that all state sequences are infinite, it just means that there is no fixed deadline.
+
+In infinite horizon a natural preference-independence is held. The agent’s preferences between state sequences are stationary. Stationarity for preferences means
+
+$[s, s_0, s_1, s_2,  ... ] > [s, s_0', s_1', s_2',  ... ] \iff [s_0, s_1, s_2,  ... ] > [s_0', s_1', s_2',  ... ].$
+
+This means that if a sequence is prefered to another, it is also prefered after one state is passed. Explaning in simple words, this means that if one future is prefered  to another starting tomorrow, then it is still prefered if it were to start today instead. 
 
 ## Bellman Equation
 
@@ -133,6 +175,7 @@ In conclution Markov Decision Process is an appropriate tool to represent Reinfo
 
 ## References
 
+- Russell, Stuart, and Peter Norvig. "Artificial intelligence: a modern approach." (2002).
 - https://towardsdatascience.com/real-world-applications-of-markov-decision-process-mdp-a39685546026
 - https://web.mit.edu/6.246/www/notes/L3-notes.pdf
 - https://hub.packtpub.com/reinforcement-learning-mdp-markov-decision-process-tutorial/
@@ -153,17 +196,7 @@ In conclution Markov Decision Process is an appropriate tool to represent Reinfo
 
 
 ### Discounting
-Consider gaining reward $r_i$ in time step $t_i$. In discounting, $\sum \gamma^t_i r_i$ is considered instead of $\sum r_i$ as utility function such that $0\lt \gamma \lt 1$. $\gamma=1$ is just equivalent to simple summation. Apart from what we have said so far, this method has other advantages, which we will mention briefly below.
+
 
 #### Infinite Utilities
 
-#### Stationary Preference
-
-Decision making problems may be of two types. Some may be *finite horizon* and some *infinite horizon*. Finite horizon means that there is a fixed time N after which nothing matters. In other words what happens after the fixed time is not analysed. To be mathematically shown, $U_h([s_0, s_1,...,s_{N+k}]) = U_h([s_0, s_1,..., s_N ])$
-for all $k > 0$ . In finite horizon problems, the optimal action in a given state could change over time. For example when there is little time left, the agent should take risk to gain reward before the deadline is reached. Because of this change in optimal action in a given state over time, the optimal policy for a finite horizon is nonstationary. However, with no fixed time limit, there is no reason to behave differently in the same state at different times. Hence, the optimal policy depends only on the current state, and the optimal policy is stationary. Note that infinite horizon does not necessarily mean that all state sequences are infinite, it just means that there is no fixed deadline.
-
-In infinite horizon a natural preference-independence is held. The agent’s preferences between state sequences are stationary. Stationarity for preferences means
-
-$[s, s_0, s_1, s_2,  ... ] > [s, s_0', s_1', s_2',  ... ] \iff [s_0, s_1, s_2,  ... ] > [s_0', s_1', s_2',  ... ].$
-
-This means that if a sequence is prefered to another, it is also prefered after one state is passed. Explaning is simple words, this means that if one future is prefered  to another starting tomorrow, then it is still prefered if it were to start today instead. 
