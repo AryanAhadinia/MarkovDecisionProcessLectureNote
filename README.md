@@ -39,7 +39,11 @@ Environments can be devided to two types according to their transition models.
 The reward function, quantifies the usefulness of taking a specific action and entering a specific state. These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. The general form of the reward function is shown as $R(s, a, s')$. But in some MDPs the reward function is independent from the resulting state or both resulting state and action. In those models reward function is shown with $R(s, a)$ and $R(s)$ respectively. 
 
 For a particular environment, the domain knowledge plays an important role in the assignment of rewards for different states as minor changes in the reward do matter for finding the optimal solution to an MDP problem.
-Sum of the rewards is called *utility* or *return*. 
+Sum of the rewards is called *utility* or *return*.
+
+Usually the performance of the agent, which is also called *utility*, is measured by the sum of rewards on the visited path. But other utility fucntions are also possible. General form of utility is shown by $U_h[s_0,s_1, s_2, ..., s_N]$.  
+
+
 
 ### Formalization
 
@@ -155,3 +159,11 @@ Consider gaining reward $r_i$ in time step $t_i$. In discounting, $\sum \gamma^t
 
 #### Stationary Preference
 
+Decision making problems may be of two types. Some may be *finite horizon* and some *infinite horizon*. Finite horizon means that there is a fixed time N after which nothing matters. In other words what happens after the fixed time is not analysed. To be mathematically shown, $U_h([s_0, s_1,...,s_{N+k}]) = U_h([s_0, s_1,..., s_N ])$
+for all $k > 0$ . In finite horizon problems, the optimal action in a given state could change over time. For example when there is little time left, the agent should take risk to gain reward before the deadline is reached. Because of this change in optimal action in a given state over time, the optimal policy for a finite horizon is nonstationary. However, with no fixed time limit, there is no reason to behave differently in the same state at different times. Hence, the optimal policy depends only on the current state, and the optimal policy is stationary. Note that infinite horizon does not necessarily mean that all state sequences are infinite, it just means that there is no fixed deadline.
+
+In infinite horizon a natural preference-independence is held. The agent’s preferences between state sequences are stationary. Stationarity for preferences means
+
+$[s, s_0, s_1, s_2,  ... ] > [s, s_0', s_1', s_2',  ... ] \iff [s_0, s_1, s_2,  ... ] > [s_0', s_1', s_2',  ... ].$
+
+This means that if a sequence is prefered to another, it is also prefered after one state is passed. Explaning is simple words, this means that if one future is prefered  to another starting tomorrow, then it is still prefered if it were to start today instead. 
