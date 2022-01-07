@@ -83,24 +83,24 @@ It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more 
 
 ## Bellman Equation
 
-Due to previous discussions, now objective is to find policy that maximize expected discounted utility.
+Due to previous discussions, now objective is to find policy that maximizes expected discounted utility.
 $$ max_\pi E \Bigg[ \sum_{i=0}^\infty \gamma^ir_i \Bigg] $$
 
 Consider $V^*(s)$ as expected utility starting from state $s$ and act according to $\pi^*$, the optimal policy.
 
-$Q^*(s, a)$ is expected utility starting from state $s$ then perform action $a$ and after that act according to $\pi^*$.
+$Q^*(s, a)$ is the expected utility starting from state $s$ then performing action $a$ and after that acting according to $\pi^*$.
 
-By considering all forward steps and choosing the step which maximize utility, $V^*$ can be formulated as
-$$ V^*(s) = max_a Q^*(s, a) $$
-and then by calculating expectation on earned utility by marginalizing on all possible next states which can be succeeded after action $a$ in state $s$, $Q^*$ will be written as
-$$ Q^*(s, a) = \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V^*(s') \big]$$
+By considering all forward steps and choosing the step which maximizes the utility, $V^*$ can be formulated as
+$$ V^*(s) = max_a Q^*(s, a) . $$
+Then by calculating expectation on earned utility by marginalizing on all possible next states which can be succeeded after action $a$ in state $s$, $Q^*$ will be written as
+$$ Q^*(s, a) = \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V^*(s') \big].$$
 
-Since $V^*$ and $Q^*$ are jointly recursive, It is possible to replace $Q^*$ in $V^*$.
+Since $V^*$ and $Q^*$ are jointly recursive, It is possible to replace $Q^*$ with $V^*$.
 $$ V^*(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V^*(s') \big] $$
 
 Equation above is called as *bellman equation*.
 
-by solving bellman equation for all states, optimal policy will be obtained.
+By solving bellman equation for all states, optimal policy will be obtained.
 
 ## Time Limited Values
 
@@ -109,22 +109,22 @@ Solving bellman equation via tree has two major problems:
 1. There are repeating sub problems, so there are a lots of overheads on the system.
 2. The depth of the tree could be infinite.
 
-An idea to approach solving this problem is trying to solve the problem in $k$ steps which converge to final answer instead of one-shot solving.
+An approach to solve this problem is to try solving the problem in $k$ steps which converge to final answer instead of one-shot solving.
 
-Instead of $V^*(s)$, Consider $V_k(s)$ which is expected utility starting from state $s$ and act according to $\pi^*$ with consideration that the process will be terminated after $k$ steps. The idea is with growth of $k$, $V_k$ will converge to $V^*$ so we can obtain an approximate answer of the equations system.
+Instead of $V^*(s)$, Consider $V_k(s)$ which is the expected utility starting from state $s$ and acting according to $\pi^*$ with consideration that the process will be terminated after $k$ steps. The idea is that with the growth of $k$, $V_k$ will converge to $V^*$ so an approximate solution to the equations system can be optained.
 
-Equations below are limited form of what we discuss about $V^*$ and $Q^*$ before.
+Equations below are the limited form of what was discussed about $V^*$ and $Q^*$ above.
 $$ V_{k+1}(s) = max_a Q_k(s, a) $$
 $$ Q_k(s, a) = \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big]$$
 
 So $V_{k+1}$ can be calculated by
-$$ V_{k+1}(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big] $$
+$$ V_{k+1}(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big] .$$
 
-For each state $s$, $V_{k+1}(s)$ will calculated with iteration over all states and all actions which take $O(SA)$ so each iteration will take $O(S^2A)$ totally.
+For each state $s$, $V_{k+1}(s)$ will be calculated by iteration over all states and all actions, which has time complexity $O(|S||A|)$. So the total time complexity for each iteration will  be $O(|S|^2|A|)$.
 
 ## Conclusion
 
-As explained, to model an RL problem, MDP is needed. 
+In conclution Markov Decision Process is an appropriate tool to represent Reinforcement Learning problems. In order to represent a problem using MDP, states, actions, transition model and rewards should be determined properly. Afterwards finding the optimal policy, i.e. the one with the most utility, is desired. In order to find the optimal utility, bellman equation should be solved. Algorithms such as value iteration and policy iteration attempt to solve the bellman equation feasibly. In the end take into consideration that in real world Reinforcement Learning problems, the transiton model and reward function are not known and must be learned.
 
 
 ## References
