@@ -16,27 +16,27 @@ Markov Decision Process is based on Markov chain. A Markov chain is a mathematic
 
 $$ P(S_{t+1}|S_t, ..., S_0)=P(S_{t+1}|S_t) $$
 
-$S_t$ represents the state at time $t$. Intuitively, $S_t$ conveys all of the information about the history that can affect the future states so the future is conditionally independent of the past, given the present.
+$S_t$ represents the state at time $t$ . Intuitively, $S_t$ conveys all of the information about the history that can affect the future states so the future is conditionally independent of the past, given the present.
 
 ### States
 
-States are the feature representation of the data obtained from the environment. Thus, any input from the agent’s sensors can play an important role in state formation. The $ S $ state set is a set of different states, represented as $ s $ which shows the status of the envrironment.   Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent enters a stopping state, sum of rewards, return, can be computed.
+States are the feature representation of the data obtained from the environment. Thus, any input from the agent’s sensors can play an important role in state formation. The $S$ state set is a set of different states, represented as $s$ which shows the status of the envrironment.   Each MDP consists of some states, which some of them are stopping state or so called terminal state. Terminal state is a state in which no action could be taken. When agent enters a stopping state, sum of rewards, return, can be computed.
 
 ### Actions
 
-Actions are set of things an agent is allowed to do in the given environment. The set of actions is usually showed with $ A $.
+Actions are set of things an agent is allowed to do in the given environment. The set of actions is usually showed with $A$.
 
 ### Transition Model
 
-At each state, the agent decides which action to perform. The resulting state (s') depends on both the current state (s) and the action performed by the agent (a). The transition model T(s, a, s’) gives probability P(s’|s, a), that is, the probability of landing up in the new  state s’ given that the agent takes an action, a, in given state, s.
+At each state, the agent decides which action to perform. The resulting state ($s'$) depends on both the current state ($s$) and the action performed by the agent ($a$). The transition model $T(s, a, s’)$ gives probability $P(s’|s, a)$, that is, the probability of landing up in the new  state $s’$ given that the agent takes an action, $a$, in given state, $s$.
 
 Environments can be devided to two types according to their transition models.
-- Determined environment: In a determined environment, if a certain action (a) is taken, the resulting state is the expected state (s') with probability 1.
-- Stochastic environment: In a stochastic environment, if the same action (a) is taken, with a certain probability e.g. 0.8 the resulting state  will be the expected state and there is 0.2 probability that the resulting state is not the expected state. Here, for the s state and the a action transition model, T(s’, a, s) = P(s’| s, a) = 0.8.
+- Determined environment: In a determined environment, if a certain action ($a$) is taken, the resulting state is the expected state ($s'$) with probability 1.
+- Stochastic environment: In a stochastic environment, if the same action (a) is taken, with a certain probability e.g. $0.8$ the resulting state  will be the expected state and there is $0.2$ probability that the resulting state is not the expected state. Here, for the s state and the a action transition model, $T(s’, a, s) = P(s’| s, a) = 0.8$.
 
 ### Rewards
 
-The reward of the state quantifies the usefulness of taking a specific action and entering a state.These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. The general form of the reward function is shown as $ R(s, a, s') $. But in some MDPs the reward function is independent from the resulting state or both resulting state and action. In those models reward function is shown with $R(s, a) $ and $ R(s) $ respectively. 
+The reward of the state quantifies the usefulness of taking a specific action and entering a state.These rewards incorporate the action costs in addition to any prizes or penalties that may be given. Negative rewards are called punishments. The general form of the reward function is shown as $R(s, a, s')$. But in some MDPs the reward function is independent from the resulting state or both resulting state and action. In those models reward function is shown with $R(s, a)$ and $R(s)$ respectively. 
 
 For a particular environment, the domain knowledge plays an important role in the assignment of rewards for different states as minor changes in the reward do matter for finding the optimal solution to an MDP problem.
 Sum of the rewards is called utility or return. 
@@ -46,17 +46,17 @@ Sum of the rewards is called utility or return.
 By combining the concepts which were explained above the complete formulation for Markov Decision Process is acheived as below.
 
 - A set of possible states $S$.
--	A set of possible actions $ A$.
+-	A set of possible actions $A$.
 -	A transition function $T(s, a, s’)$ 
-    -  Probability that taking action $a$ in state $s$ leads to $s'$, i.e., $P(s’| s, a) $
+    -  Probability that taking action $a$ in state $s$ leads to $s'$, i.e., $P(s’| s, a)$
 - Also called the model or the dynamic.
-- A reward function $R(s, a, s’) $
+- A reward function $R(s, a, s’)$
     - Sometimes reward only depends on the resulting state. So $R(s, a, s’)$ can be replaced by $R(s’)$ or $R(s', a)$
 - A start state 
 - Maybe a terminal state
 
 
-## Policy
+### Policy
 
 The policy is a function that takes the state as an input and outputs the action to be taken. Policy $\pi : S \rightarrow A$ is a set of commands that the agent follows.
 
