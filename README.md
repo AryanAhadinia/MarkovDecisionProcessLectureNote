@@ -1,8 +1,24 @@
 # Introduction to Markov Decision Process
 
-## Abstract
-
 ## Table of Contents
+1. [Introduction](Introduction)
+2. [Markov Decision Process](Markov_Decision_Process)
+    1. [States](States)
+    2. [Actions](Actions)
+    3. [Transition Model](Transition_Model)
+    4. [Rewards](Rewards)
+    5. [Formalization](Formalization)
+    6. [Policy](Policy)
+3. [MDP Search Trees](MDP_Search_Trees)
+4. [Utilities of Sequences](Utilities_of_Sequences)
+   1. [Discounting](Discounting)
+   2. [Finite and infinite horizons](Finite_and_infinite_horizons)
+   3. [Infinite Utilities](Infinite_Utilities)
+5. [Bellman Equation](Bellman_Equation)
+6. [Time Limited Values](Time_Limited_Values)
+7. [Implementation](Implementation)
+8. [Conclusion](Conclusion)
+9. [References](References)
 
 ## Introduction
 
@@ -81,7 +97,7 @@ By combining the concepts which were explained above the complete formulation fo
     -  Probability that taking action $a$ in state $s$ leads to $s'$, i.e., $P(s’| s, a)$
 - Also called the model or the dynamic.
 - A reward function $R(s, a, s’)$
-    - Sometimes reward only depends on the resulting state. So $R(s, a, s’)$ can be replaced by $R(s’)$ or $R(s', a)$
+    - Sometimes reward only depends on the resulting state or on the resulting state and action. So $R(s, a, s’)$ can be replaced by $R(s’)$ or $R(s', a)$
 - A start state 
 - Maybe a terminal state
 
@@ -101,27 +117,31 @@ In expectimax tree the path which leads to the most reward is desired. MDP probl
 - In MDP Rewards are assigned to edges rather than nodes.
 - In MDP utiliy is the sum of rewards gained in the path to the terminal state. But in expectimax utility is the the value assigned to the terminal state.
 
+In the robot car example, the search is as shown below.
+
 <center>
 <image src="./tree.png">
 </center> 
 
 ## Utilities of Sequences
 
-It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more return as well as more reward is gained in each step. But choosing between [1, 0, 0] and [0, 0, 1] is not that easy. This motivates us to consider the time which the reward is being received. In most cases, it's preferred to gain the rewards as soon as possible.
+It's easy to choose between sequence of [1, 2, 2] and [2, 3, 4]. Obviously more utility as well as more reward in each step is gained . But choosing between [1, 0, 0] and [0, 0, 1] is not that easy. This motivates us to consider the time which the reward is being received. In most cases, it's preferred to gain the rewards as soon as possible.
 
 ### Discounting
 
-Consider gaining reward $r_i$ in time step $t_i$. In discounting, $\sum \gamma^t_i r_i$ is considered instead of $\sum r_i$ as utility function such that $0\lt \gamma \lt 1$. $\gamma=1$ is just equivalent to simple summation. Apart from what we have said so far, this method has other advantages, which we will mention briefly below.
+Consider gaining reward $r_i$ in time step $t_i$. In discounting, $\sum \gamma^t r_i$ is considered instead of $\sum r_i$ as utility function such that $0\lt \gamma \lt 1$. $\gamma=1$ is just equivalent to simple summation. Apart from what we have said so far, this method has other advantages, which will be mentioned below briefly.
+
+### Finite and infinite horizons
+Decision making problems may be of two types. Some may be *finite horizon* and some *infinite horizon*. Finite horizon means that there is a fixed time N after which nothing matters. In other words what happens after the fixed time is not analysed. To be mathematically shown, $U_h([s_0, s_1,...,s_{N+k}]) = U_h([s_0, s_1,..., s_N ])$
+for all $k > 0$ . In finite horizon problems, the optimal action in a given state could change over time. That is, when there is little time left, the agent should take risk to gain reward before the deadline is reached. Because of this change in optimal action in a given state over time, the optimal policy for a finite horizon is nonstationary. However, with no fixed time limit, there is no reason to behave differently in the same state at different times. Hence, the optimal policy depends only on the current state, and the optimal policy is stationary. Note that infinite horizon does not necessarily mean that all state sequences are infinite, it just means that there is no fixed deadline.
 
 #### Infinite Utilities
 
+In infinite horizon problems, calculating an upper bound on the gained utility is desired to distinguish different policies appropriately. But defining utility as $\sum r_i$ does not satisfy the mentioned condition. But if discounting is applied, according to the geometric sequence sum $\sum \gamma^t r_i < r_{max} \sum \gamma^t = \frac{r_{max}}{1 - \gamma}$ .
+
 #### Stationary Preference
 
-
-Decision making problems may be of two types. Some may be *finite horizon* and some *infinite horizon*. Finite horizon means that there is a fixed time N after which nothing matters. In other words what happens after the fixed time is not analysed. To be mathematically shown, $U_h([s_0, s_1,...,s_{N+k}]) = U_h([s_0, s_1,..., s_N ])$
-for all $k > 0$ . In finite horizon problems, the optimal action in a given state could change over time. For example when there is little time left, the agent should take risk to gain reward before the deadline is reached. Because of this change in optimal action in a given state over time, the optimal policy for a finite horizon is nonstationary. However, with no fixed time limit, there is no reason to behave differently in the same state at different times. Hence, the optimal policy depends only on the current state, and the optimal policy is stationary. Note that infinite horizon does not necessarily mean that all state sequences are infinite, it just means that there is no fixed deadline.
-
-In infinite horizon a natural preference-independence is held. The agent’s preferences between state sequences are stationary. Stationarity for preferences means
+In infinite horizon only if utility is defined as $\sum r_i$ or $\sum \gamma^t r_i$ the agent’s preferences between state sequences are stationary. Stationarity for preferences means
 
 $[s, s_0, s_1, s_2,  ... ] > [s, s_0', s_1', s_2',  ... ] \iff [s_0, s_1, s_2,  ... ] > [s_0', s_1', s_2',  ... ].$
 
@@ -168,6 +188,168 @@ $$ V_{k+1}(s) = max_a \sum_{s'}T(s, a, s')\big[R(s, a, s') + \gamma V_k(s') \big
 
 For each state $s$, $V_{k+1}(s)$ will be calculated by iteration over all states and all actions, which has time complexity $O(|S||A|)$. So the total time complexity for each iteration will  be $O(|S|^2|A|)$.
 
+## Implementation
+
+States, terminal states, actions, transition and reward funtion should be implemented in order to define the MDP.
+The robot car example explained above will be encoded as bellow
+
+```Python
+car_states = ['Cool', 'Warm', 'Over']
+car_terminals = ['Over']
+car_actions = ['fast', 'slow']
+
+
+def car_transition(state, action, next_state):
+    if state == 'Cool':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 1.0
+            if next_state == 'Warm':
+                return 0.0
+            if next_state == 'Over':
+                return 0.0
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 0.5
+            if next_state == 'Warm':
+                return 0.5
+            if next_state == 'Over':
+                return 0.0
+    if state == 'Warm':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 0.5
+            if next_state == 'Warm':
+                return 0.5
+            if next_state == 'Over':
+                return 0.0
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 0.0
+            if next_state == 'Warm':
+                return 0.0
+            if next_state == 'Over':
+                return 1.0
+    if state == 'Over':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 0.0
+            if next_state == 'Warm':
+                return 0.0
+            if next_state == 'Over':
+                return 1.0
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 0.0
+            if next_state == 'Warm':
+                return 0.0
+            if next_state == 'Over':
+                return 1.0
+
+
+def car_reward(state, action, next_state):
+    if state == 'Cool':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 1
+            if next_state == 'Warm':
+                return 0  # Impossible
+            if next_state == 'Over':
+                return 0  # Impossible
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 2
+            if next_state == 'Warm':
+                return 2
+            if next_state == 'Over':
+                return 0  # Impossible
+    if state == 'Warm':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 1
+            if next_state == 'Warm':
+                return 1
+            if next_state == 'Over':
+                return 0  # Impossible
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 0  # Impossible
+            if next_state == 'Warm':
+                return 0  # Impossible
+            if next_state == 'Over':
+                return -10
+    if state == 'Over':
+        if action == 'slow':
+            if next_state == 'Cool':
+                return 0  # Impossible
+            if next_state == 'Warm':
+                return 0  # Impossible
+            if next_state == 'Over':
+                return 0  # Impossible
+        if action == 'fast':
+            if next_state == 'Cool':
+                return 0  # Impossible
+            if next_state == 'Warm':
+                return 0  # Impossible
+            if next_state == 'Over':
+                return 0  # Impossible
+```
+
+In order to find the optimal policy, while finding new values using value iteration, the action which maximizes the value should also be stored.
+
+```Python
+from typing import List
+from typing import Tuple
+
+
+def argmax(l: List) -> int:
+    index_max = 0
+    for i in range(len(l)):
+        if l[i] > l[index_max]:
+            index_max = i
+    return index_max
+
+
+def mdp_iterate(transition_function, reward_function, gamma: float, states: List, terminals: List,  actions: List, v: List):
+    new_v = []
+    best_actions = []
+    for i in range(len(states)):
+        state = states[i]
+        if state in terminals:
+            new_v.append(v[i])
+            best_actions.append(None)
+            continue
+        values_action = []
+        for action_index in range(len(actions)):
+            action = actions[action_index]
+            values_next = []
+            for next_state_index in range(len(states)):
+                next_state = states[next_state_index]
+                expected = reward_function(state, action, next_state) + (gamma * v[i])
+                values_next.append(transition_function(state, action, next_state) * expected)
+            value_next = sum(values_next)
+            values_action.append(value_next)
+        value_action = max(values_action)
+        new_v.append(value_action)
+        best_action_i = argmax(values_action)
+        best_actions.append(actions[best_action_i])
+    return new_v, best_actions
+
+
+def mdp_solve(transition_function, reward_function, gamma: float, states: List, terminals: List, actions: List, iter: int):
+    v = [0 for _ in range(len(states))]
+    p = [None for _ in range(len(states))]
+    for _ in range(iter):
+        v, p = mdp_iterate(transition_function, reward_function, gamma, states, terminals, actions, v)
+    return {states[i]: p[i] for i in range(len(states))}
+```
+
+By running the code above this result is generated.
+
+```Python
+>>> mdp_solve(car_transition, car_reward, 0.9, car_states, car_terminals, car_actions, 10)
+{'Cool': 'fast', 'Warm': 'slow', 'Over': None}
+```
 ## Conclusion
 
 In conclution Markov Decision Process is an appropriate tool to represent Reinforcement Learning problems. In order to represent a problem using MDP, states, actions, transition model and rewards should be determined properly. Afterwards finding the optimal policy, i.e. the one with the most utility, is desired. In order to find the optimal utility, bellman equation should be solved. Algorithms such as value iteration and policy iteration attempt to solve the bellman equation feasibly. In the end take into consideration that in real world Reinforcement Learning problems, the transiton model and reward function are not known and must be learned.
@@ -183,20 +365,4 @@ In conclution Markov Decision Process is an appropriate tool to represent Reinfo
 - https://towardsdatascience.com/introduction-to-reinforcement-learning-markov-decision-process-44c533ebf8da
 - https://www.geeksforgeeks.org/markov-decision-process/
 
-
-
-
-
-
-<br><br><br><br><br><br><br><br>
-
-
-
-
-
-
-### Discounting
-
-
-#### Infinite Utilities
 
